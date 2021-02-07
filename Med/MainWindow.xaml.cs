@@ -41,15 +41,84 @@ namespace Med
             showData();
         }
 
+        private string getFilters() {
+
+            App currentApp = ((App)Application.Current);
+
+            List<string> filters = new List<string>();
+
+            if ((bool)onlyToday.IsChecked) {
+
+                filters.Add("CONVERT(DATE, dbo.entries.time) = CONVERT(DATE, GETDATE())");
+            }
+
+            if ((bool)onlyMy.IsChecked)
+            {
+                filters.Add("dbo.entries.user_id = " + currentApp.UserId.ToString());
+            }
+
+            if ((bool)onlyMe.IsChecked)
+            {
+                filters.Add("dbo.entries.doctor_id = " + currentApp.UserId.ToString());
+            }
+
+            if (patientLastName.Text.Length > 0) {
+                filters.Add("patients.last_name like '" + patientLastName.Text + "%'");            
+            }
+
+            if (patientFirstName.Text.Length > 0)
+            {
+                filters.Add("patients.first_name like '" + patientFirstName.Text + "%'");
+            }
+
+            if (patientMiddleName.Text.Length > 0)
+            {
+                filters.Add("patients.middle_name like '" + patientMiddleName.Text + "%'");
+            }
+
+            if (doctorLastName.Text.Length > 0)
+            {
+                filters.Add("doctors.last_name like '" + doctorLastName.Text + "%'");
+            }
+
+            if (doctorFirstName.Text.Length > 0)
+            {
+                filters.Add("doctors.first_name like '" + doctorFirstName.Text + "%'");
+            }
+            
+            if (doctorMiddleName.Text.Length > 0)
+            {
+                filters.Add("doctors.middle_name like '" + doctorMiddleName.Text + "%'");
+            }
+
+            return String.Join(" AND ", filters);
+        }
+
         private void showData()
         {
-            string sql = "SELECT * FROM entries_view";
+            // Представление не используется из-за проблем с фильтрацией
+            string sql = @"SELECT dbo.procedures.Name AS Процедура, dbo.procedures.TimeOnProc AS [Время на процедуру], dbo.entries.time AS [Время записи], dbo.positions.name AS Должность, CONCAT_WS(' ', doctors.last_name, doctors.first_name, 
+                         doctors.middle_name) AS Врач, CONCAT_WS(' ', patients.last_name, patients.first_name, patients.middle_name) AS Пациент
+                         FROM dbo.entries 
+                         INNER JOIN dbo.procedures ON dbo.entries.procedur_id = dbo.procedures.id INNER JOIN
+                         dbo.users AS doctors ON dbo.entries.doctor_id = doctors.id INNER JOIN
+                         dbo.users AS patients ON dbo.entries.user_id = patients.id INNER JOIN
+                         dbo.positions ON doctors.position_id = dbo.positions.id";
+
+            string filter = getFilters();
+
+            if (filter.Length > 0) {
+
+                sql += " WHERE " + filter;
+            }
+
             entriesTable = new DataTable();
             SqlConnection connection = ((App)Application.Current).GetConnection();
             try
             {
                 SqlCommand command = new SqlCommand(sql, connection);
                 adapter = new SqlDataAdapter(command);
+                entriesTable.Rows.Clear();
                 adapter.Fill(entriesTable);
                 entriesGrid.ItemsSource = entriesTable.DefaultView;
             }
@@ -75,7 +144,7 @@ namespace Med
                     cmd.CommandType = CommandType.Text;
                     cmd.ExecuteNonQuery();
                 }
-                MessageBox.Show(procedureWindow.Procedure.ToString());
+                showData();
             }
         }
 
@@ -101,6 +170,11 @@ namespace Med
         {
             Tables tableWindow = new Tables("equipment");
             tableWindow.Show();
+        }
+
+        private void searchClick(object sender, RoutedEventArgs e)
+        {
+            showData();
         }
     }
 }

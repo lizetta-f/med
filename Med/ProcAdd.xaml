@@ -6,61 +6,53 @@
         xmlns:local="clr-namespace:Med"
         mc:Ignorable="d"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-        Title="ProcAdd" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Добавить запись" Height="450" Width="400" Loaded="Window_Loaded">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <TextBox Grid.Row="0">Процедура:</TextBox>
-        <ComboBox Grid.Row="1" Name="proceduresBox"></ComboBox>
-        <TextBox Grid.Row="2">Пациент:</TextBox>
-        <ComboBox Grid.Row="3" Name="usersBox">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} {1} {2}">
-                                <Binding Path="last_name"/>
-                                <Binding Path="first_name"/>
-                                <Binding Path="middle_name"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <TextBox Grid.Row="4">Врач:</TextBox>
-        <ComboBox Grid.Row="5" Name="doctorsBox">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} {1} {2}">
-                                <Binding Path="last_name"/>
-                                <Binding Path="first_name"/>
-                                <Binding Path="middle_name"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <TextBox Grid.Row="6">Время:</TextBox>
-        <wpfTool:DateTimePicker Grid.Row="8" x:Name="datePicker1"/>
-
-        <WrapPanel Grid.Row="9" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button IsDefault="True" Click="Accept_Click" MinWidth="60" Margin="0,0,10,0">Добавить</Button>
-            <Button IsCancel="True" MinWidth="60">Отмена</Button>
+        <StackPanel Grid.Row="0" Margin="5,0">
+            <TextBlock Margin="0,0,0,3" Grid.Row="0">Процедура</TextBlock>
+            <ComboBox Grid.Row="1" Name="proceduresBox"></ComboBox>
+            <TextBlock Margin="0,6,0,3">Пациент</TextBlock>
+            <ComboBox Name="usersBox">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                    <Binding Path="last_name"/>
+                                    <Binding Path="first_name"/>
+                                    <Binding Path="middle_name"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Margin="0,6,0,3">Врач</TextBlock>
+            <ComboBox Name="doctorsBox">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                    <Binding Path="last_name"/>
+                                    <Binding Path="first_name"/>
+                                    <Binding Path="middle_name"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Margin="0,6,0,3">Дата и время</TextBlock>
+            <wpfTool:DateTimePicker x:Name="datePicker1"/>
+        </StackPanel>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Padding="5"  IsDefault="True" Click="Accept_Click" MinWidth="60" Margin="0,0,10,0">Добавить</Button>
+            <Button Padding="5" IsCancel="True" MinWidth="60">Отмена</Button>
         </WrapPanel>
 
     </Grid>

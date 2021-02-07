@@ -29,6 +29,7 @@ namespace Med
         {
             this.tableName = tableName;
             InitializeComponent();
+            Title = tableName;
         }
 
         public static SqlDbType GetSqlType(Type type)

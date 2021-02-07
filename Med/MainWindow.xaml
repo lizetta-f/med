@@ -5,17 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Med"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Регистратура" Height="800" Width="800" Loaded="Window_Loaded">
     
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Menu Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
-            <MenuItem Header="File"/>
-            <MenuItem Header="Edit"/>
-            <MenuItem Header="Help"/>
             <MenuItem Header="Записи">
                 <MenuItem Header="Добавить" Click="addProc_Click"/>
             </MenuItem>
@@ -23,9 +22,48 @@
                 <MenuItem Header="Пользователи" Click="showUsers"/>
                 <MenuItem Header="Процедуры" Click="showProcedures"/>
                 <MenuItem Header="Должности" Click="showPositions"/>
-                <MenuItem Header="Оборудование" Click="showEquipment"/>
+                <!--<MenuItem Header="Оборудование" Click="showEquipment"/>-->
             </MenuItem>
         </Menu>
-        <DataGrid Grid.Row="1" AutoGenerateColumns="True" x:Name="entriesGrid"></DataGrid>
+        <GroupBox Grid.Row="1" Padding="5">
+            <GroupBox.Header>
+                <TextBlock>Поиск</TextBlock>
+            </GroupBox.Header>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <CheckBox Margin="5,0" x:Name="onlyToday" IsChecked="False" Content="Только на сегодня"/>
+                    <CheckBox Margin="5,0" x:Name="onlyMy" IsChecked="False" Content="Только мои"/>
+                    <CheckBox Margin="5,0" x:Name="onlyMe" IsChecked="False" Content="Только ко мне"/>
+                </StackPanel>
+                <GroupBox Padding="5">
+                    <GroupBox.Header>
+                        <TextBlock>Пациент</TextBlock>
+                    </GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Фамилия </TextBlock>
+                        <TextBox Margin="3,0,6,0" x:Name="patientLastName" Width="150"/>
+                        <TextBlock>Имя:</TextBlock>
+                        <TextBox Margin="3,0,6,0" x:Name="patientFirstName" Width="150"/>
+                        <TextBlock>Отчество:</TextBlock>
+                        <TextBox Margin="3,0,6,0" x:Name="patientMiddleName" Width="150"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Padding="5">
+                    <GroupBox.Header>
+                        <TextBlock>Врач</TextBlock>
+                    </GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Фамилия</TextBlock>
+                        <TextBox Margin="3,0,6,0" x:Name="doctorLastName" Width="150"/>
+                        <TextBlock>Имя:</TextBlock>
+                        <TextBox Margin="3,0,6,0" x:Name="doctorFirstName" Width="150"/>
+                        <TextBlock>Отчество:</TextBlock>
+                        <TextBox Margin="3,0,6,0" x:Name="doctorMiddleName" Width="150"/>
+                    </StackPanel>
+                </GroupBox>
+                <Button Margin="0,5,0,0" Click="searchClick">Поиск</Button>
+            </StackPanel>
+        </GroupBox>
+        <DataGrid Grid.Row="2" AutoGenerateColumns="True" x:Name="entriesGrid"></DataGrid>
     </Grid>
 </Window>

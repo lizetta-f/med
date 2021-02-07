@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Med"
         mc:Ignorable="d"
-        Title="Auth" Height="450" Width="800">
+        Title="Авторизация" Height="450" Width="800">
     <Grid>
         <StackPanel HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="300">
             <TextBlock Text="Авторизация" HorizontalAlignment="Center" FontSize="36" />
