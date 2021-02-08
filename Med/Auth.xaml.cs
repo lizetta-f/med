@@ -34,27 +34,36 @@ namespace Med
             }
 
             App currentApp = (App) Application.Current;
-            SqlConnection conn = currentApp.GetConnection();
 
-            SqlCommand sqlCmd = new SqlCommand("SELECT * FROM users WHERE login=@login and password=@password", conn);
-            sqlCmd.Parameters.AddWithValue("@login", login.Text);
-            sqlCmd.Parameters.AddWithValue("@password", password.Password);
-
-            using (SqlDataReader reader = sqlCmd.ExecuteReader())
+            try
             {
-                if (reader.Read())
+                SqlConnection conn = currentApp.GetConnection();
+
+                SqlCommand sqlCmd = new SqlCommand("SELECT * FROM users WHERE login=@login and password=@password", conn);
+                sqlCmd.Parameters.AddWithValue("@login", login.Text);
+                sqlCmd.Parameters.AddWithValue("@password", password.Password);
+
+                using (SqlDataReader reader = sqlCmd.ExecuteReader())
                 {
-                    currentApp.UserId = (int) reader["id"];
-                    //MessageBox.Show(String.Format("{0}", reader["login"]));
+                    if (reader.Read())
+                    {
+                        currentApp.UserId = (int)reader["id"];
+                        //MessageBox.Show(String.Format("{0}", reader["login"]));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Неверный логин или пароль");
+                        return;
+                    }
                 }
-                else {
-                    MessageBox.Show("Неверный логин или пароль");
-                    return;
-                }
-            }
 
             (new MainWindow()).Show();
-            this.Close();
+                this.Close();
+            }
+            catch (SqlException ex) {
+                MessageBox.Show("Произошла ошибка при подключении к БД");
+            }
+            
         }
     }
 }

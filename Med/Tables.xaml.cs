@@ -60,8 +60,6 @@ namespace Med
                 //connection.Open();
                 adapter.Fill(phonesTable);
 
-                string cols = "";
-
                 adapter.InsertCommand = new SqlCommand(tableName + "_ins", connection);
                 adapter.InsertCommand.CommandType = CommandType.StoredProcedure;
                 
@@ -88,10 +86,7 @@ namespace Med
                         adapter.DeleteCommand.Parameters.Add(new SqlParameter("@" + col.ColumnName, SqlDbType.Int, 0, col.ColumnName));
                     }
 
-                    //cols = cols + ", " + col.DataType;
                 }
-
-                //MessageBox.Show(cols);
 
                 cardsGrid.ItemsSource = phonesTable.DefaultView;
             }
@@ -108,7 +103,6 @@ namespace Med
 
         private void UpdateDB()
         {
-            //SqlCommandBuilder comandbuilder = new SqlCommandBuilder(adapter);
             adapter.Update(phonesTable);
         }
 
@@ -132,14 +126,6 @@ namespace Med
                 }
             }
             UpdateDB();
-        }
-
-        private void phonesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox comboBox = (ComboBox)sender;
-            ComboBoxItem selectedItem = (ComboBoxItem)comboBox.SelectedItem;
-            //tableName = selectedItem.Content.ToString();
-            //changeTable();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
